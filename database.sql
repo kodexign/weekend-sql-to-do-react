@@ -1,9 +1,9 @@
 CREATE TABLE "todolist" (
 	"id" SERIAL PRIMARY KEY,
-	"todo" varchar(255),
+	"task" varchar(255),
 	"complete" BOOLEAN DEFAULT FALSE
 );
-INSERT INTO todolist ("todo", "complete")
+INSERT INTO todolist ("task", "complete")
 VALUES 
 ('grocery shop', false),
 ('meal prep', false),
