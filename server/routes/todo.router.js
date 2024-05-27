@@ -24,14 +24,14 @@ router.get('/', function (request, response) {
 router.post('/', function (request, response) {
     console.log('request.body', request.body);
 
-    let newToDo = request.body;
+    let newTask = request.body;
 
-    let toDo = newToDo.todo;
-    let complete = newToDo.complete;
+    let task = newTask.task;
+    let complete = newTask.complete;
    
-    let queryText = `INSERT INTO "todolist" ("toDo", "complete")
+    let queryText = `INSERT INTO "todolist" ("task", "complete")
     VALUES ($1, $2);`
-    pool.query(queryText, [toDo, complete])
+    pool.query(queryText, [task, complete])
         .then(dbResult => {
             console.log('dbResult.rows', dbResult.rows);
             response.sendStatus(201);
@@ -46,18 +46,18 @@ router.post('/', function (request, response) {
 
 // PUT
 router.put('/:id', function (request, response) {
-    console.log('description updated');
+    console.log('task updated');
     let idToUpdate = request.params.id;
     console.log('idToUpdate:', idToUpdate);
     console.log('typeof idToUpdate:', typeof idToUpdate);
 
-    let toDo = request.body.todo;
-    console.log('description:', todo);
+    let task = request.body.task;
+    console.log('description:', task);
 
-    let queryText = `UPDATE "todolist" SET "todo" = $1 WHERE id = $2`;
-    pool.query(queryText, [toDo, idToUpdate])
+    let queryText = `UPDATE "todolist" SET "task" = $1 WHERE id = $2`;
+    pool.query(queryText, [task, idToUpdate])
         .then(dbResult => {
-            console.log('todo updated:',dbResult);
+            console.log('task updated:',dbResult);
             response.sendStatus(200);
                 })
         .catch(dbError => {
