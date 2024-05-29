@@ -5,16 +5,16 @@ const pool = require('../modules/pool.js');
 // GET
 router.get('/', function (request, response) {
 
-    let queryText = 'SELECT * FROM "todolist";';
+    let queryText = 'SELECT * FROM "todo";';
 
     pool.query(queryText)
         .then((dbResult) => {
-            let toDoList = dbResult.rows;
+            let todo = dbResult.rows;
             console.log('get dbResult:', dbResult);
-            response.send(toDoList);
+            response.send(todo);
         })
         .catch((dbError) => {
-            console.log('dbError:', dbError);
+            console.log('error from GET router:', dbError);
             response.sendStatus(500);
         })
 
@@ -29,7 +29,7 @@ router.post('/', function (request, response) {
     let task = newTask.task;
     let complete = newTask.complete;
    
-    let queryText = `INSERT INTO "todolist" ("task", "complete")
+    let queryText = `INSERT INTO "todo" ("task", "complete")
     VALUES ($1, $2);`
     pool.query(queryText, [task, complete])
         .then(dbResult => {
@@ -40,7 +40,7 @@ router.post('/', function (request, response) {
             console.log('dbError:', dbError);
             response.sendStatus(500);
 
-            console.log('Adding treats', newTreat);
+            console.log('Adding task', newTask);
         })
 });
 
@@ -54,7 +54,7 @@ router.put('/:id', function (request, response) {
     let task = request.body.task;
     console.log('description:', task);
 
-    let queryText = `UPDATE "todolist" SET "task" = $1 WHERE id = $2`;
+    let queryText = `UPDATE "todo" SET "task" = $1 WHERE id = $2`;
     pool.query(queryText, [task, idToUpdate])
         .then(dbResult => {
             console.log('task updated:',dbResult);
@@ -72,7 +72,7 @@ router.delete('/:id', function (request, response) {
     
     let idToDelete = request.params.id;
     console.log('idToDelete:', idToDelete);
-    let queryText = `DELETE FROM "todolist" WHERE id = $1;`;
+    let queryText = `DELETE FROM "todo" WHERE id = $1;`;
 
     pool.query(queryText, [idToDelete])
     .then(dbResult => {
@@ -83,7 +83,7 @@ router.delete('/:id', function (request, response) {
         console.log('dbError', dbError);
         response.sendStatus(500);
 
-        console.log('deleted treat:', idToDelete);
+        console.log('deleted task:', idToDelete);
     })
 });
 
