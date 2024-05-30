@@ -33,11 +33,11 @@ router.post('/', function (request, response) {
     VALUES ($1, $2);`
     pool.query(queryText, [task, complete])
         .then(dbResult => {
-            console.log('dbResult.rows', dbResult.rows);
+            console.log('POST router', dbResult.rows);
             response.sendStatus(201);
         })
         .catch(dbError => {
-            console.log('dbError:', dbError);
+            console.log('Error from POST router:', dbError);
             response.sendStatus(500);
 
             console.log('Adding task', newTask);
