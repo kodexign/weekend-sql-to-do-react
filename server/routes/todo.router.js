@@ -54,7 +54,7 @@ router.put('/:id', function (request, response) {
     let task = request.body.task;
     console.log('description:', task);
 
-    let queryText = `UPDATE "todo" SET "task" = $1 WHERE id = $2`;
+    let queryText = `UPDATE "todo" SET "complete" = false WHERE id = $1`;
     pool.query(queryText, [task, idToUpdate])
         .then(dbResult => {
             console.log('task updated:',dbResult);
