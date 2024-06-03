@@ -5,7 +5,7 @@ const pool = require('../modules/pool.js');
 // GET
 router.get('/', function (request, response) {
 
-    let queryText = 'SELECT * FROM "todo";';
+    let queryText = `SELECT * FROM "todo";`;
 
     pool.query(queryText)
         .then((dbResult) => {

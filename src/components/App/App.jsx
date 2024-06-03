@@ -6,10 +6,10 @@ import './App.css';
 function App() {
   let [task, setTask] = useState('');
   let [complete, setComplete] = useState('');
-  let [taskArray, setTaskArray] = useState([]);// do I need this??
+  let [taskArray, setTaskArray] = useState([]);
 
 let fetchTask = () => {
-      console.log('fetchTask:', fetchTask);
+      console.log('fetchTask');
       axios({
           method: 'GET',
           url: '/api/todo'
@@ -21,7 +21,7 @@ let fetchTask = () => {
           console.log("GET error", error);
       });
   }
-  useEffect(fetchTask, [setTaskArray]);
+  useEffect(fetchTask, []);
 
   let addTask = (event) => {
     event.preventDefault();
@@ -31,7 +31,7 @@ let fetchTask = () => {
         url: '/api/todo',
         data: {
             task: task,
-            complete: complete,
+            complete: complete
         }
     })
         .then((response) => {
@@ -61,14 +61,12 @@ let fetchTask = () => {
       <div className="App">
           <h1>TO DO:</h1> 
           <form onSubmit={addTask}>
-          <label htmlFor="item">Task</label>
-              <input id="item" onChange={(event) => setTask(event.target.value)} value={task} />
-              {/* <label htmlFor="quantity">Quantity</label>
-              <input id="quantity" onChange={(event) => setComplete(event.target.value)} value={complete} />  */}
+          <label htmlFor="task">Task</label>
+              <input id="task" onChange={(event) => setTask(event.target.value)} value={task} />
               <button type="submit">Add new task</button>
           </form>
           <h2>Task List</h2>
-          {taskArray.map((item) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(item.id)}>Remove</button> <button onClick={() => toggleItem(item.id)}>not functioning Complete</button> </li>); })}
+          {taskArray.map((task) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(item.id)}>Remove</button> <button onClick={() => toggleItem(item.id)}>not functioning Complete</button> </li>); })}
       </div>
   );
 }
