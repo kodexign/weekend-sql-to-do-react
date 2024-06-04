@@ -57,10 +57,10 @@ function App() {
       })
   }
 
-  const toggleTask= (id) => {
+  const toggleTask = (id) => {
     console.log('toggle action', id);
-    
-    axios.put(`/api/todo/toggle/${id}`)
+
+    axios.put(`/api/todo/${id}`)
     .then((response) => {
         console.log('toggle action worked:', response);
         fetchTask();
@@ -74,12 +74,12 @@ function App() {
     <div className="App">
       <h1>TO DO:</h1>
       <form onSubmit={addTask}>
-        <label htmlFor="task">Task</label>
-        <input id="task" onChange={(event) => setTask(event.target.value)} value={task} />
+        <label htmlFor="task">New Task: </label>
+        <input id="task" placeholder = "input new task here" onChange={(event) => setTask(event.target.value)} value={task} />
         <button type="submit" >Add new task</button>
       </form>
       <h2>Task List</h2>
-      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>not functioning Complete</button> </li>); })}
+      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>Complete</button> {JSON.stringify(todo.complete)}</li>); })}
     </div>
   );
 }

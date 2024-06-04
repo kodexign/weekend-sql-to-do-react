@@ -43,18 +43,18 @@ router.post('/', function (request, response) {
         })
 });
 
-// PUT
+// PUT ROUTE FOR TOGGLE -- COMPLETE/NOT COMPLETE
 router.put('/:id', function (request, response) {
     console.log('task updated');
     let idToUpdate = request.params.id;
     console.log('idToUpdate:', idToUpdate);
     console.log('typeof idToUpdate:', typeof idToUpdate);
 
-    let task = request.body.task;
-    console.log('description:', task);
+    // let task = request.body.task;
+    // console.log('description:', task);
 
-    let queryText = `UPDATE "todo" SET "complete" = false WHERE id = $1`;
-    pool.query(queryText, [task, idToUpdate])
+    let queryText = `UPDATE "todo" SET "complete" = NOT "complete" WHERE id = $1`;
+    pool.query(queryText, [idToUpdate])
         .then(dbResult => {
             console.log('task updated:', dbResult);
             response.sendStatus(200);
@@ -86,20 +86,6 @@ router.delete('/:id', function (request, response) {
         })
 });
 
-// PUT ROUTE FOR TOGGLE -- COMPLETE/NOT COMPLETE
- router.put('/toggle/:id', (request, response) => {
-    let id = request.params;
-    let queryText = 
-    `UPDATE "todo" SET "complete" = false WHERE id = $1;
-    `;
-    pool.query(queryText, [id])
-    .then((result) => {
-        console.log('toggle from database:', result);
-        response.sendStatus(200);
-    })
-    .catch((error) => {
-        console.log(`toggle error ${queryText}`, error);
-        response.sendStatus(500);
-    })
- });
+
+
 module.exports = router;
