@@ -27,7 +27,7 @@ router.post('/', function (request, response) {
     let newTask = request.body;
     let task = newTask.task;
     let complete = newTask.complete;
-   
+
     let queryText = `INSERT INTO "todo" ("task", "complete")
     VALUES ($1, $2);`
     pool.query(queryText, [task, complete])
@@ -56,9 +56,9 @@ router.put('/:id', function (request, response) {
     let queryText = `UPDATE "todo" SET "complete" = false WHERE id = $1`;
     pool.query(queryText, [task, idToUpdate])
         .then(dbResult => {
-            console.log('task updated:',dbResult);
+            console.log('task updated:', dbResult);
             response.sendStatus(200);
-                })
+        })
         .catch(dbError => {
             console.log(dbError);
             response.sendStatus(500);
@@ -68,22 +68,22 @@ router.put('/:id', function (request, response) {
 // DELETE
 router.delete('/:id', function (request, response) {
     console.log('req.params:', request.params);
-    
+
     let idToDelete = request.params.id;
     console.log('idToDelete:', idToDelete);
     let queryText = `DELETE FROM "todo" WHERE id = $1;`;
 
     pool.query(queryText, [idToDelete])
-    .then(dbResult => {
-        console.log(dbResult);
-        response.sendStatus(200);
-    })
-    .catch(dbError => {
-        console.log('dbError', dbError);
-        response.sendStatus(500);
+        .then(dbResult => {
+            console.log(dbResult);
+            response.sendStatus(200);
+        })
+        .catch(dbError => {
+            console.log('dbError', dbError);
+            response.sendStatus(500);
 
-        console.log('deleted task:', idToDelete);
-    })
+            console.log('deleted task:', idToDelete);
+        })
 });
 
 module.exports = router;

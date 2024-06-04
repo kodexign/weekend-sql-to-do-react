@@ -8,66 +8,66 @@ function App() {
   let [complete, setComplete] = useState('');
   let [taskArray, setTaskArray] = useState([]);
 
-let fetchTask = () => {
-      console.log('fetchTask');
-      axios({
-          method: 'GET',
-          url: '/api/todo'
-      }).then((response) => {
-          console.log('GET response:', response);
-          console.log('GET response data:', response.data);
-          setTaskArray(response.data);
-      }).catch((error) => {
-          console.log("GET error", error);
-      });
+  let fetchTask = () => {
+    console.log('fetchTask');
+    axios({
+      method: 'GET',
+      url: '/api/todo'
+    }).then((response) => {
+      console.log('GET response:', response);
+      console.log('GET response data:', response.data);
+      setTaskArray(response.data);
+    }).catch((error) => {
+      console.log("GET error", error);
+    });
   }
   useEffect(fetchTask, []);
 
   let addTask = (event) => {
     event.preventDefault();
-    
-    axios({
-        method: 'POST',
-        url: '/api/todo',
-        data: {
-            task: task,
-            complete: complete
-        }
-    })
-        .then((response) => {
-            console.log('successful POST:', response);
-            fetchTask();
-            //clears input
-            setTask('');
-            setComplete('');
-        })
-        .catch((error) => {
-            console.log('POST failed:', error);
-        })
-    }
+    console.log('task added:', task);
 
-    let deleteTask = (id) => {
-      axios.delete(`/api/todo/${id}`)
+    axios({
+      method: 'POST',
+      url: '/api/todo',
+      data: {
+        // for later---inputs go here
+        task: task,
+      }
+    })
       .then((response) => {
-          console.log('deleting item worked:', response);
-          fetchList();
+        console.log('successful POST:', response);
+        fetchTask();
+        //clears input
+        setTask('');
+      })
+      .catch((error) => {
+        console.log('POST failed:', error);
+      })
+  }
+
+  let deleteTask = (id) => {
+    axios.delete(`/api/todo/${id}`)
+      .then((response) => {
+        console.log('deleting item worked:', response);
+        fetchList();
       })
       .catch(function (error) {
-          console.log(error);
+        console.log(error);
       })
-    }
+  }
 
-    return (
-      <div className="App">
-          <h1>TO DO:</h1> 
-          <form >
-          <label htmlFor="task">Task</label>
-              <input id="task" onChange={(event) => setTask(event.target.value)} value={task} />
-              <button type="submit" onSubmit={addTask}>Add new task</button>
-          </form>
-          <h2>Task List</h2>
-          {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleItem(todo.id)}>not functioning Complete</button> </li>); })}
-      </div>
+  return (
+    <div className="App">
+      <h1>TO DO:</h1>
+      <form onSubmit={addTask}>
+        <label htmlFor="task">Task</label>
+        <input id="task" onChange={(event) => setTask(event.target.value)} value={task} />
+        <button type="submit" >Add new task</button>
+      </form>
+      <h2>Task List</h2>
+      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleItem(todo.id)}>not functioning Complete</button> </li>); })}
+    </div>
   );
 }
 
