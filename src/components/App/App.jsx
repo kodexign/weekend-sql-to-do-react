@@ -57,6 +57,19 @@ function App() {
       })
   }
 
+  const toggleTask= (id) => {
+    console.log('toggle action', id);
+    
+    axios.put(`/api/todo/toggle/${id}`)
+    .then((response) => {
+        console.log('toggle action worked:', response);
+        fetchTask();
+    })
+    .catch (function (error) {
+        console.log(error);
+    })
+}
+
   return (
     <div className="App">
       <h1>TO DO:</h1>
@@ -66,7 +79,7 @@ function App() {
         <button type="submit" >Add new task</button>
       </form>
       <h2>Task List</h2>
-      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleItem(todo.id)}>not functioning Complete</button> </li>); })}
+      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>not functioning Complete</button> </li>); })}
     </div>
   );
 }

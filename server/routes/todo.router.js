@@ -86,4 +86,20 @@ router.delete('/:id', function (request, response) {
         })
 });
 
+// PUT ROUTE FOR TOGGLE -- COMPLETE/NOT COMPLETE
+ router.put('/toggle/:id', (request, response) => {
+    let id = request.params;
+    let queryText = 
+    `UPDATE "todo" SET "complete" = false WHERE id = $1;
+    `;
+    pool.query(queryText, [id])
+    .then((result) => {
+        console.log('toggle from database:', result);
+        response.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log(`toggle error ${queryText}`, error);
+        response.sendStatus(500);
+    })
+ });
 module.exports = router;
