@@ -49,8 +49,8 @@ function App() {
   let deleteTask = (id) => {
     axios.delete(`/api/todo/${id}`)
       .then((response) => {
-        console.log('deleting item worked:', response);
-        fetchList();
+        console.log('deleting item:', response);
+        fetchTask();
       })
       .catch(function (error) {
         console.log(error);
