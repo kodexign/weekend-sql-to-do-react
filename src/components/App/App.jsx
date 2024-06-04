@@ -60,13 +60,13 @@ let fetchTask = () => {
     return (
       <div className="App">
           <h1>TO DO:</h1> 
-          <form onSubmit={addTask}>
+          <form >
           <label htmlFor="task">Task</label>
               <input id="task" onChange={(event) => setTask(event.target.value)} value={task} />
-              <button type="submit">Add new task</button>
+              <button type="submit" onSubmit={addTask}>Add new task</button>
           </form>
           <h2>Task List</h2>
-          {taskArray.map((task) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(item.id)}>Remove</button> <button onClick={() => toggleItem(item.id)}>not functioning Complete</button> </li>); })}
+          {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleItem(todo.id)}>not functioning Complete</button> </li>); })}
       </div>
   );
 }

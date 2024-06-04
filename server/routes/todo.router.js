@@ -25,7 +25,6 @@ router.post('/', function (request, response) {
     console.log('request.body', request.body);
 
     let newTask = request.body;
-
     let task = newTask.task;
     let complete = newTask.complete;
    
