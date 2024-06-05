@@ -33,6 +33,7 @@ function App() {
       data: {
         // for later---inputs go here
         task: task,
+        complete: false
       }
     })
       .then((response) => {
@@ -56,11 +57,11 @@ function App() {
         console.log(error);
       })
   }
-
+//not functioning correctly?
   const toggleTask = (id) => {
     console.log('toggle action', id);
 
-    axios.put(`/api/todo/${id}`)
+    axios.put(`/api/todo/toggle/${id}`)
     .then((response) => {
         console.log('toggle action worked:', response);
         fetchTask();
@@ -79,7 +80,7 @@ function App() {
         <button type="submit" >Add new task</button>
       </form>
       <h2>Task List</h2>
-      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>Complete</button> {JSON.stringify(todo.complete)}</li>); })}
+      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>{todo.complete ? "completed" : "not complete"}</button> {JSON.stringify(todo.complete)}</li>); })}
     </div>
   );
 }

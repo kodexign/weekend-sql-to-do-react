@@ -43,18 +43,15 @@ router.post('/', function (request, response) {
         })
 });
 
-// PUT ROUTE FOR TOGGLE -- COMPLETE/NOT COMPLETE
-router.put('/:id', function (request, response) {
+// PUT ROUTE FOR TOGGLE -- COMPLETE/NOT COMPLETE/// not function correctly
+router.put('/toggle/:id', function (request, response) {
     console.log('task updated');
-    let idToUpdate = request.params.id;
-    console.log('idToUpdate:', idToUpdate);
-    console.log('typeof idToUpdate:', typeof idToUpdate);
-
-    // let task = request.body.task;
-    // console.log('description:', task);
+    let {id}= request.params;
+    console.log('idToUpdate:', id);
+    console.log('typeof idToUpdate:', typeof id);
 
     let queryText = `UPDATE "todo" SET "complete" = NOT "complete" WHERE id = $1`;
-    pool.query(queryText, [idToUpdate])
+    pool.query(queryText, [id])
         .then(dbResult => {
             console.log('task updated:', dbResult);
             response.sendStatus(200);
