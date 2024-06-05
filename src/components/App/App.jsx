@@ -57,7 +57,7 @@ function App() {
         console.log(error);
       })
   }
-//not functioning correctly?
+//functioning but the list gets re-ordered each time it toggles
   const toggleTask = (id) => {
     console.log('toggle action', id);
 
