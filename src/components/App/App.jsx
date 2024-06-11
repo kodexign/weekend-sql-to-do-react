@@ -5,8 +5,9 @@ import './App.css';
 
 function App() {
   let [task, setTask] = useState('');
-  let [complete, setComplete] = useState('');
+  let [complete, setComplete] = useState('false');
   let [taskArray, setTaskArray] = useState([]);
+
 
   let fetchTask = () => {
     console.log('fetchTask');
@@ -33,7 +34,7 @@ function App() {
       data: {
         // for later---inputs go here
         task: task,
-        complete: false
+        complete: complete
       }
     })
       .then((response) => {
@@ -73,14 +74,23 @@ function App() {
 
   return (
     <div className="App">
-      <h1>TO DO:</h1>
+      <h1>Geddit Done:</h1>
+      <div className = "form">
       <form onSubmit={addTask}>
         <label htmlFor="task">New Task: </label>
         <input id="task" placeholder = "input new task here" onChange={(event) => setTask(event.target.value)} value={task} />
         <button type="submit" >Add new task</button>
       </form>
+     </div>
+      <div className="taskList">
       <h2>Task List</h2>
-      {taskArray.map((todo) => { return (<li key={todo.task}>{todo.task} {todo.complete} <button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>{todo.complete ? "done!" : "to complete"}</button></li>); })}
+      {taskArray.map((todo) => { return (
+      <div className='taskItem'><li key={todo.task}>{todo.task} {todo.complete}
+     <div className='taskButtons'><button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>{todo.complete ? "done!"  : "complete"}</button>
+     </div>
+     </li></div>); })}
+    </div> 
+    
     </div>
   );
 }
