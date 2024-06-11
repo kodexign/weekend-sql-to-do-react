@@ -39,7 +39,7 @@ function App() {
     })
       .then((response) => {
         console.log('successful POST:', response);
-          fetchTask();
+        fetchTask();
         //clears input
         setTask('');
       })
@@ -58,38 +58,64 @@ function App() {
         console.log(error);
       })
   }
-//functioning but the list gets re-ordered each time it toggles
+  //functioning but the list gets re-ordered each time it toggles
   const toggleTask = (id) => {
     console.log('toggle action', id);
 
     axios.put(`/api/todo/toggle/${id}`)
-    .then((response) => {
+      .then((response) => {
         console.log('toggle action worked:', response);
         fetchTask();
-    })
-    .catch (function (error) {
+      })
+      .catch(function (error) {
         console.log(error);
-    })
-}
+      })
+  }
+    //undo task complete
+    let undoTask = (id) => {
+      console.log('reset action', id);
+
+      axios.put(`/api/todo/undoTask/${id}`)
+        .then((response) => {
+          console.log('reset action worked:', response);
+          fetchTask();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    
+  }
 
   return (
     <div className="App">
       <h1>Stop Putting It Off:</h1>
-      <div className = "form">
-      <form onSubmit={addTask}>
-        <label htmlFor="task">New Task: </label>
-        <input id="task" type = "text" placeholder = "input new task here" onChange={(event) => setTask(event.target.value)} value={task} />
-        <button className= "submit-button" type="submit" >Add new task</button>
-      </form>
-     </div>
+      <div className="form">
+        <form onSubmit={addTask}>
+          <label htmlFor="task">New Task: </label>
+          <input id="task" type="text" placeholder="input new task here" onChange={(event) => setTask(event.target.value)} value={task} />
+          <button className="submit-button" type="submit" >Add new task</button>
+        </form>
+      </div>
       <div className="taskList">
-      <h2>Task List</h2>
-      {taskArray.map((todo) => { return (
-      <div className='taskItem'><li key={todo.task}>{todo.task} {todo.complete}
-     <button className="delete-button" onClick={() => deleteTask(todo.id)}>Remove</button> <button className='complete-button' onClick={() => toggleTask(todo.id)}>{todo.complete ? "done!"  : "complete"}</button>
-     </li></div>); })}
-    </div> 
-    
+        <h2>Task List</h2>
+        {taskArray.map((todo) => {
+          return (
+            <li key={todo.task} className={todo.complete ? 'complete' : ''}>
+              {todo.task} {todo.complete ? (
+                <span> ✅
+                  <button className='undo-button' onClick={() => undoTask(todo.id)}>undo</button>
+                </span>
+              ) : (
+                <>
+                  <button className="delete-button" onClick={() => deleteTask(todo.id)}>Remove</button>
+                  <button className='complete-button' onClick={() => toggleTask(todo.id)}>Complete</button>
+                 
+
+                </>)}
+            </li>);
+        })}
+      </div>
+
     </div>
   );
 }

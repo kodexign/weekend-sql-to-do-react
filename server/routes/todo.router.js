@@ -46,7 +46,7 @@ router.post('/', function (request, response) {
 // PUT ROUTE FOR TOGGLE -- COMPLETE/NOT COMPLETE/// not function correctly
 router.put('/toggle/:id', function (request, response) {
     console.log('task updated');
-    let {id}= request.params;
+    let { id } = request.params;
     console.log('idToUpdate:', id);
     console.log('typeof idToUpdate:', typeof id);
 
@@ -80,6 +80,25 @@ router.delete('/:id', function (request, response) {
             response.sendStatus(500);
 
             console.log('deleted task:', idToDelete);
+        })
+});
+
+//UNDO
+router.put('/undoTask/:id', function (request, response) {
+
+    let { id } = request.params;
+    console.log('undoTask:', id);
+    let queryText = `
+        UPDATE "todo" SET "complete" = NOT "complete" WHERE id =$1;
+    `;
+    pool.query(queryText, [id])
+        .then((result) => {
+            console.log(`Got stuff back from the database`, result);
+            response.sendStatus(201);
+        })
+        .catch((error) => {
+            console.log(`Error undoing status ${queryText}`, error);
+            response.sendStatus(500); // Good server always responds
         })
 });
 
