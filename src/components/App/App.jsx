@@ -39,7 +39,7 @@ function App() {
     })
       .then((response) => {
         console.log('successful POST:', response);
-        fetchTask();
+          fetchTask();
         //clears input
         setTask('');
       })
@@ -74,20 +74,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Geddit Done:</h1>
+      <h1>Stop Putting It Off:</h1>
       <div className = "form">
       <form onSubmit={addTask}>
         <label htmlFor="task">New Task: </label>
-        <input id="task" placeholder = "input new task here" onChange={(event) => setTask(event.target.value)} value={task} />
-        <button type="submit" >Add new task</button>
+        <input id="task" type = "text" placeholder = "input new task here" onChange={(event) => setTask(event.target.value)} value={task} />
+        <button className= "submit-button" type="submit" >Add new task</button>
       </form>
      </div>
       <div className="taskList">
       <h2>Task List</h2>
       {taskArray.map((todo) => { return (
       <div className='taskItem'><li key={todo.task}>{todo.task} {todo.complete}
-     <div className='taskButtons'><button onClick={() => deleteTask(todo.id)}>Remove</button> <button onClick={() => toggleTask(todo.id)}>{todo.complete ? "done!"  : "complete"}</button>
-     </div>
+     <button className="delete-button" onClick={() => deleteTask(todo.id)}>Remove</button> <button className='complete-button' onClick={() => toggleTask(todo.id)}>{todo.complete ? "done!"  : "complete"}</button>
      </li></div>); })}
     </div> 
     
